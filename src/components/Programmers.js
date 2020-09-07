@@ -28,12 +28,10 @@ export default function Programmers() {
   // We'll have to use the state hook twice, as we need two slices of state.
   // The programmers list on the one hand, and the id of the featured programmer on the other.
 
-  const [programmer, setProgammer] = useState('');
-  const [featuringProgrammer, setFeaturingProgrammer] = useState(false);
+  const[programmerId, setProgammerId]=useState('');
   
   const getNameOfFeatured = () => {
-    return programmer.name;
-    // return listOfAwesome[programmerId - 1].name;
+    return listOfAwesome[programmerId - 1].name;
     // Leave this for last!
     // This is NOT an event handler but a helper function. See its usage inside the JSX.
     // It's going to utilize both slices of state to return the _name_ of the featured dev.
@@ -42,15 +40,14 @@ export default function Programmers() {
   };
  
 
-  const onFeatureClick = (dev) => {
-    setProgammer(dev)
-    setFeaturingProgrammer(true);
+  const onFeatureClick = (id) => {
+    setProgammerId(id)
   }
 
   const style = {
     fontSize: '1.5em',
     marginTop: '0.5em',
-    color: featuringProgrammer ? 'gold' : 'royalblue', // 🤔 color turns to gold, when celebrating
+    color: programmerId ? 'gold' : 'royalblue', // 🤔 color turns to gold, when celebrating
   };
 
   return (
@@ -64,7 +61,7 @@ export default function Programmers() {
           we could never add or edit programmers in the future. The list would be a static thing." */
           listOfAwesome.map(dev =>
             <div className='programmer' key={dev.id}>
-              {dev.name} <button onClick={() => onFeatureClick(dev)}>Feature</button>
+              {dev.name} <button onClick={() => onFeatureClick(dev.id)}>Feature</button>
             </div>
           )
         }
@@ -74,7 +71,7 @@ export default function Programmers() {
           // Ternaries are fantastic to render "one thing or the other" depending on the "truthiness" of something.
           // Pseudo-code: if the currently featured id is truthy render text 1, otherwise render text 2.
           // Replace the hard-coded false with the correct variable.
-          featuringProgrammer
+          programmerId
             ? `🎉 Let's celebrate ${getNameOfFeatured()}! 🥳`
             : 'Pick an awesome programmer'
         }
